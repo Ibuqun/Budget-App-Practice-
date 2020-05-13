@@ -159,6 +159,14 @@ let UIController = (function () {
       //Insert the HTML into DOM
       document.querySelector(element).insertAdjacentHTML("beforeend", newHtml);
     },
+
+    deleteListItem: function (selectorID) {
+      let el = document.getElementById(selectorID);
+      //Get the parent element, the apply removeChild() method to delete the child.
+      //This is weird, but it's how javascript works.
+      el.parentNode.removeChild(el);
+
+    },
     //Clear the input fields after the input has been entered.
     clearFields: function () {
       let fields, fieldsArr;
@@ -247,8 +255,9 @@ let controller = (function (budgetCtrl, UICtrl) {
       //1. Delete the item from the data structure
       budgetCtrl.deleteItem(type, id);
       //2. Delete the item from the UI.
-
+      UICtrl.deleteListItem(itemID);
       //3.Update and show new budget.
+      updateBudget();
     }
   };
    
