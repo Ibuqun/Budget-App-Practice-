@@ -157,6 +157,7 @@ let UIController = (function () {
     percentageLabel: ".budget__expenses--percentage",
     container: ".container",
     expPercLabel: ".item__percentage",
+    dateLabel: ".budget__title--month"
   };
 
   let formatNumber = function(num, type){
@@ -235,7 +236,7 @@ let UIController = (function () {
       fieldsArr[0].focus();
     },
 
-    displayObject: function(obj){
+    displayBudget: function(obj){
       let type;
       obj.budget > 0 ? type = 'inc' : type = 'exp';
 
@@ -273,6 +274,18 @@ let UIController = (function () {
       }
     },
 
+    displayMonth: function () {
+      let now, m, month, months, year;
+       now = new Date();
+      //let christmas = new Date (2020, 12, 25);
+      months= ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+      month = now.getMonth();
+      m = months[month];
+      year = now.getFullYear();
+      document.querySelector(DOMStrings.dateLabel).textContent = m + ',' + '  ' + year;
+
+    },
+
     //make the DOMStrings object public
     getDOMStrings: function () {
       return DOMStrings;
@@ -300,7 +313,7 @@ let controller = (function (budgetCtrl, UICtrl) {
     // Return the budget.
     let budget = budgetCtrl.getBudget();
     //6.Display the budget on the UI.
-    UICtrl.displayObject(budget);
+    UICtrl.displayBudget(budget);
   };
 
   let updatePercentages = function() {
@@ -353,15 +366,17 @@ let controller = (function (budgetCtrl, UICtrl) {
    
   return {
     init: function () {
-      UICtrl.displayObject({
+      UICtrl.displayBudget({
         budget: 0,
         totalInc: 0,
         totalExp: 0,
         percentage: -1
-      })
+      });
         
-      console.log("Application has started");
+      console.log("Application has started.");
       setUpEventListeners();
+      UICtrl.displayMonth();
+      
     },
   };
 })(budgetController, UIController);
